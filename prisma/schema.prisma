@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Aplicativo {
+  codigo      String       @id @default(uuid())
+  nome        String       @unique
+  custoMensal Float        @map("custo_mensal")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime?    @updatedAt
+  assinaturas Assinatura[]
+
+  @@map("aplicativos")
+}
+
+model Cliente {
+  codigo    String    @id @default(uuid())
+  nome      String
+  email     String    @unique
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt
+
+  assinaturas Assinatura[]
+
+  @@map("clientes")
+}
+
+model Assinatura {
+  codigo         String   @id @default(uuid())
+  inicioVigencia DateTime @default(now()) @map("inicio_vigencia")
+  fimVigencia    DateTime @map("fim_vigencia")
+
+  aplicativo Aplicativo @relation(fields: [codApp], references: [codigo], onDelete: Cascade)
+  cliente    Cliente    @relation(fields: [codCli], references: [codigo], onDelete: Cascade)
+
+  codApp String
+  codCli String
+
+  status String?
+
+  @@map("assinaturas")
+}
