@@ -3,7 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { isSubscriptionValidDto } from '../../dtos/getClientSubscriptionDto'
 import { GetSubscriptionByIdUseCase } from '@/domain/application/useCases/getSubscriptionById'
 
-@Controller('/verifica/:id')
+@Controller('/assinvalidas/:id')
 @ApiTags('Assinaturas')
 export class GetSubscriptionByIdController {
   constructor(private getSubscriptionByIdUseCase: GetSubscriptionByIdUseCase) {}
